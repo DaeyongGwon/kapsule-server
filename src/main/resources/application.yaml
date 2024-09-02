@@ -1,0 +1,30 @@
+#DB Connection
+spring:
+    datasource:
+        url: ${url}
+        driver-class-name: ${driverClassName}
+        username: ${username}
+        password: ${password}
+
+jpa:
+    hibernate:
+        ddl-auto: update
+    properties:
+        hibernate:
+            dialect: org.hibernate.dialect.MariaDBDialect
+            show_sql: true
+            format_sql: true
+
+thymeleaf:
+    cache: false
+logging.level:
+    org:
+        hibernate:
+            SQL: DEBUG
+            type: debug
+
+    #Kakao
+kakao:
+    clientId: ${clientId}
+    redirectUri: ${redirectUri}
+    restApiKey: ${restApiKey}
