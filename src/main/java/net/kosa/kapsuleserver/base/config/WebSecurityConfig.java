@@ -36,8 +36,8 @@ public class WebSecurityConfig implements WebMvcConfigurer {
     private final OAuth2SuccessHandler oAuth2SuccessHandler;
 
     public WebSecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter,
-        OAuth2UserServiceImplement oAuth2UserService,
-        OAuth2SuccessHandler oAuth2SuccessHandler) {
+            OAuth2UserServiceImplement oAuth2UserService,
+            OAuth2SuccessHandler oAuth2SuccessHandler) {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
         this.oAuth2UserService = oAuth2UserService;
         this.oAuth2SuccessHandler = oAuth2SuccessHandler;
@@ -46,27 +46,23 @@ public class WebSecurityConfig implements WebMvcConfigurer {
     @Bean
     protected SecurityFilterChain configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
-            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-            .csrf(CsrfConfigurer::disable)
-            .httpBasic(HttpBasicConfigurer::disable)
-            .sessionManagement(sessionManagement -> sessionManagement
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            )
-            .authorizeHttpRequests(request -> request
-                .requestMatchers("/**", "/static/**").permitAll()
-                .requestMatchers("/api/v1/user-info").authenticated()
-                .anyRequest().authenticated()
-            )
-            .oauth2Login(oauth2 -> oauth2
-                .authorizationEndpoint(endpoint -> endpoint.baseUri("/api/v1/auth/oauth2"))
-                .redirectionEndpoint(endpoint -> endpoint.baseUri("/oauth2/callback/*"))
-                .userInfoEndpoint(endpoint -> endpoint.userService(oAuth2UserService))
-                .successHandler(oAuth2SuccessHandler)
-            )
-            .exceptionHandling(exceptionHandling -> exceptionHandling
-                .authenticationEntryPoint(new FailedAuthenticationEntryPoint())
-            )
-            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .csrf(CsrfConfigurer::disable)
+                .httpBasic(HttpBasicConfigurer::disable)
+                .sessionManagement(sessionManagement -> sessionManagement
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(request -> request
+                        .requestMatchers("/**", "/static/**").permitAll()
+                        .requestMatchers("/api/v1/user-info").authenticated()
+                        .anyRequest().authenticated())
+                .oauth2Login(oauth2 -> oauth2
+                        .authorizationEndpoint(endpoint -> endpoint.baseUri("/api/v1/auth/oauth2"))
+                        .redirectionEndpoint(endpoint -> endpoint.baseUri("/oauth2/callback/*"))
+                        .userInfoEndpoint(endpoint -> endpoint.userService(oAuth2UserService))
+                        .successHandler(oAuth2SuccessHandler))
+                .exceptionHandling(exceptionHandling -> exceptionHandling
+                        .authenticationEntryPoint(new FailedAuthenticationEntryPoint()))
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return httpSecurity.build();
     }
@@ -74,7 +70,8 @@ public class WebSecurityConfig implements WebMvcConfigurer {
     @Bean
     protected CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.setAllowedOrigins(Arrays.asList("https://localhost:8080", "http://localhost:8080"));
+        corsConfiguration.setAllowedOrigins(
+                Arrays.asList("https://kapsuleclient.pages.dev/myPage", "https://kapsuleclient.pages.dev/myPage"));
         corsConfiguration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         corsConfiguration.setAllowedHeaders(Arrays.asList("*"));
         corsConfiguration.setAllowCredentials(true);
@@ -88,7 +85,8 @@ public class WebSecurityConfig implements WebMvcConfigurer {
 class FailedAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
+    public void commence(HttpServletRequest request, HttpServletResponse response,
+            AuthenticationException authException) throws IOException, ServletException {
         response.setContentType("application/json");
         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         response.getWriter().write("{\"code\": \"NP\", \"message\": \"No Permission.\"}");

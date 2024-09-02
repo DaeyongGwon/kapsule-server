@@ -27,8 +27,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     public void onAuthenticationSuccess(
             HttpServletRequest request,
             HttpServletResponse response,
-            Authentication authentication
-    ) throws IOException, ServletException {
+            Authentication authentication) throws IOException, ServletException {
         CustomOAuth2User oAuth2User = (CustomOAuth2User) authentication.getPrincipal();
         String kakaoId = oAuth2User.getName();
         String profileImageUrl = oAuth2User.getProfileImageUrl();
@@ -38,7 +37,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         logger.info("token " + token);
 
-        response.sendRedirect("https://localhost:8080/auth/oauth-response/" + token + "/3600");
+        response.sendRedirect("https://kapsuleclient.pages.dev/myPage/auth/oauth-response/" + token + "/3600");
 
     }
 }
