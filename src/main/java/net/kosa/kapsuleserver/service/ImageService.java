@@ -39,24 +39,12 @@ public class ImageService {
     @PostConstruct
     public void init() {
         File uploadDir = new File(imageUploadDir);
-        logger.info("Attempting to create/check directory: {}", uploadDir.getAbsolutePath());
-
         if (!uploadDir.exists()) {
             boolean dirCreated = uploadDir.mkdirs();
 
-            if (!dirCreated) {
-                logger.error("Failed to create directory: {}", uploadDir.getAbsolutePath());
+            if (!dirCreated) { // 여기를 수정
                 throw new RuntimeException("Image upload directory could not be created");
-            } else {
-                logger.info("Directory created successfully: {}", uploadDir.getAbsolutePath());
             }
-        } else {
-            logger.info("Directory already exists: {}", uploadDir.getAbsolutePath());
-        }
-
-        if (!uploadDir.canWrite()) {
-            logger.error("Directory is not writable: {}", uploadDir.getAbsolutePath());
-            throw new RuntimeException("Image upload directory is not writable");
         }
     }
 
