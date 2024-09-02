@@ -37,7 +37,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         logger.info("token " + token);
 
-        response.sendRedirect("https://kapsuleclient.pages.dev/myPage/auth/oauth-response/" + token + "/3600");
+        response.sendRedirect("https://kapsuleclient.pages.dev/auth/oauth-response/" + token + "/3600");
 
     }
 }

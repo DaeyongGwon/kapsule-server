@@ -71,7 +71,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
     protected CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.setAllowedOrigins(
-                Arrays.asList("https://kapsuleclient.pages.dev/myPage", "https://kapsuleclient.pages.dev/myPage"));
+                Arrays.asList("https://kapsuleclient.pages.dev/", "https://kapsuleclient.pages.dev/"));
         corsConfiguration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         corsConfiguration.setAllowedHeaders(Arrays.asList("*"));
         corsConfiguration.setAllowCredentials(true);
